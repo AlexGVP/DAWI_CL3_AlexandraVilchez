@@ -30,4 +30,14 @@ public class UsuarioService {
         usuario.setRoles(new HashSet<>(Arrays.asList(usuarioRol)));
         return usuarioRepository.save(usuario);
     }
+    public boolean cambiarContraseña(String nombreUsuario, String nuevaContraseña) {
+        Usuario usuario = usuarioRepository.findByNomusuario(nombreUsuario);
+        if (usuario != null) {
+            String nuevaContraseñaHash = bCryptPasswordEncoder.encode(nuevaContraseña);
+            usuario.setPassword(nuevaContraseñaHash);
+            usuarioRepository.save(usuario);
+            return true;
+        }
+        return false;
+    }
 }
